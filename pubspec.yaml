@@ -1,5 +1,5 @@
 name: installed_apps_plugin
-description: "A new Flutter plugin project."
+description: "Plugin to list linux installed apps"
 version: 0.0.1
 repository: "https://github.com/doaortu/installed_apps_plugin"
 
