@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:installed_apps_plugin/data/installed_app.dart';
 import 'package:installed_apps_plugin/installed_apps_plugin.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
+  List<InstalledApp> _installedApps = [];
   final _installedAppsPlugin = InstalledAppsPlugin();
 
   @override
@@ -27,19 +28,13 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    String platformVersion;
     List<InstalledApp> apps;
     // Platform messages may fail, so we use a try/catch PlatformException.
     // We also handle the message potentially returning null.
     try {
-      apps = await InstalledAppsPlugin.getInstalledApps();
-      print(apps);
-      platformVersion =
-          await _installedAppsPlugin.getPlatformVersion() ?? 'Unknown platform version';
+      apps = await _installedAppsPlugin.getInstalledApps();
     } on PlatformException {
-      apps = [];
-      print(apps);
-      platformVersion = 'Failed to get platform version.';
+      apps = [InstalledApp(name: 'Failed to get apps')];
     }
 
     // If the widget was removed from the tree while the asynchronous platform
@@ -48,7 +43,7 @@ class _MyAppState extends State<MyApp> {
     if (!mounted) return;
 
     setState(() {
-      _platformVersion = platformVersion;
+      _installedApps = apps;
     });
   }
 
@@ -60,7 +55,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: Text('Apps: $_installedApps\n'),
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:installed_apps_plugin/data/installed_app.dart';
 
 import 'installed_apps_plugin_platform_interface.dart';
 
@@ -10,8 +11,10 @@ class MethodChannelInstalledAppsPlugin extends InstalledAppsPluginPlatform {
   final methodChannel = const MethodChannel('installed_apps_plugin');
 
   @override
-  Future<String?> getPlatformVersion() async {
-    final version = await methodChannel.invokeMethod<String>('getPlatformVersion');
-    return version;
+  Future<List<InstalledApp>> getInstalledApps() async {
+    final List<dynamic> apps = await methodChannel.invokeMethod('getInstalledApps');
+    return apps
+        .map((app) => InstalledApp.fromMap(Map<String, dynamic>.from(app)))
+        .toList();
   }
 }

@@ -1,3 +1,4 @@
+import 'package:installed_apps_plugin/data/installed_app.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'installed_apps_plugin_method_channel.dart';
@@ -23,7 +24,7 @@ abstract class InstalledAppsPluginPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<String?> getPlatformVersion() {
-    throw UnimplementedError('platformVersion() has not been implemented.');
+  Future<List<InstalledApp>> getInstalledApps() async {
+    throw UnimplementedError('getInstalledApps() has not been implemented.');
   }
 }

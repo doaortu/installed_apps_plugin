@@ -1,15 +1,45 @@
-# installed_apps_plugin
+# Installed Apps Plugin
+This is a Flutter plugin project named installed_apps_plugin. It is designed to provide functionality related to installed applications on a device.
 
-A new Flutter plugin project.
+### Features
+- Fetches a list of installed applications on linux.
 
-## Getting Started
+### Getting Started
+To use this plugin, add installed_apps_plugin as a dependency in your pubspec.yaml file.
+```yaml
+dependencies:
+  installed_apps_plugin: ^0.0.1
+```
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+### Usage
+Import installed_apps_plugin in your Dart file:
+```dart
+import 'package:installed_apps_plugin/data/installed_app.dart';
+import 'package:installed_apps_plugin/installed_apps_plugin.dart';
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+and use the async `getInstalledApps` method whenever you want:
+```dart
+final _installedAppsPlugin = InstalledAppsPlugin();
+List<InstalledApp> apps = await _installedAppsPlugin.getInstalledApps();
+```
 
+You can then use the plugin's methods to fetch installed apps and platform version.
+
+### Platform Support
+This plugin has support for **Linux platform**. It uses `gio` gtk c++ binding to get installed apps.
+
+### Testing
+The plugin includes unit tests for the C portion of the plugin's implementation. These tests can be run from the command line once the plugin's example app has been built.
+
+### Contributing
+Contributions are welcome! Please read the contributing guidelines before getting started.
+
+### License
+This project is licensed under the terms of the MIT license.
+
+### Contact
+For any issues or suggestions, please open an issue on the GitHub repository.
+
+### More Information
+For more information, please refer to the example provided in this repository.
