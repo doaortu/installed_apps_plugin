@@ -22,6 +22,7 @@ G_DEFINE_TYPE(InstalledAppsPlugin, installed_apps_plugin, g_object_get_type())
 struct AppInfo {
   std::string name;
   std::string *icon_path;
+  std::string id;
 };
 
 std::vector<AppInfo> get_installed_apps() {
@@ -47,6 +48,7 @@ std::vector<AppInfo> get_installed_apps() {
 
     AppInfo app;
     app.name = display_name;
+    app.id = g_app_info_get_id(app_info);
 
     // Try to get the application icon
     GIcon *icon = g_app_info_get_icon(app_info);
@@ -76,23 +78,6 @@ std::vector<AppInfo> get_installed_apps() {
   return apps;
 }
 
-// static std::vector<std::string> get_installed_apps_v0() {
-//   std::vector<std::string> apps;
-//   GAppInfoMonitor *monitor = g_app_info_monitor_get();
-//   GList *apps_list = g_app_info_get_all();
-//
-//   for (GList *l = apps_list; l != NULL; l = l->next) {
-//     GAppInfo *app_info = G_APP_INFO(l->data);
-//     const char *display_name = g_app_info_get_display_name(app_info);
-//     apps.push_back(display_name);
-//   }
-//
-//   g_list_free_full(apps_list, g_object_unref);
-//   g_object_unref(monitor);
-//
-//   return apps;
-// }
-
 // Called when a method call is received from Flutter.
 static void
 installed_apps_plugin_handle_method_call(InstalledAppsPlugin *self,
@@ -109,6 +94,8 @@ installed_apps_plugin_handle_method_call(InstalledAppsPlugin *self,
       FlValue *app_info = fl_value_new_map();
       fl_value_set_string_take(app_info, "name",
                                fl_value_new_string(app.name.c_str()));
+      fl_value_set_string_take(app_info, "id",
+                               fl_value_new_string(app.id.c_str()));
       if (app.icon_path)
         fl_value_set_string_take(app_info, "iconPath",
                                  fl_value_new_string(app.icon_path->c_str()));
@@ -119,7 +106,8 @@ installed_apps_plugin_handle_method_call(InstalledAppsPlugin *self,
     }
 
     response = FL_METHOD_RESPONSE(fl_method_success_response_new(result));
-  } else {
+  } 
+  else {
     response = FL_METHOD_RESPONSE(fl_method_not_implemented_response_new());
   }
 

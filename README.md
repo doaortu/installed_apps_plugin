@@ -3,12 +3,13 @@ This is a Flutter plugin project named installed_apps_plugin. It is designed to 
 
 ### Features
 - Fetches a list of installed applications on linux.
+- Run selected app.
 
 ### Getting Started
 To use this plugin, add installed_apps_plugin as a dependency in your pubspec.yaml file.
 ```yaml
 dependencies:
-  installed_apps_plugin: ^0.0.1
+  installed_apps_plugin: ^0.0.2
 ```
 
 ### Usage
@@ -22,6 +23,9 @@ and use the async `getInstalledApps` method whenever you want:
 ```dart
 final _installedAppsPlugin = InstalledAppsPlugin();
 List<InstalledApp> apps = await _installedAppsPlugin.getInstalledApps();
+
+// to run the app just call the launch() from InstalledApp
+apps[0].launch()
 ```
 
 You can then use the plugin's methods to fetch installed apps and platform version.

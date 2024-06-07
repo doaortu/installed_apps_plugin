@@ -34,7 +34,7 @@ class _MyAppState extends State<MyApp> {
     try {
       apps = await _installedAppsPlugin.getInstalledApps();
     } on PlatformException {
-      apps = [InstalledApp(name: 'Failed to get apps')];
+      apps = [InstalledApp(name: 'Failed to get apps', id: '1')];
     }
 
     // If the widget was removed from the tree while the asynchronous platform
@@ -55,7 +55,17 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Apps: $_installedApps\n'),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Text('Apps: $_installedApps\n'),
+                TextButton(onPressed: (){
+                  var htopApp = _installedApps.where((element) => element.name == 'Htop').first;
+                  htopApp.launch();
+                }, child: const Text('Launch Example App'))
+              ],
+            ),
+          ),
         ),
       ),
     );

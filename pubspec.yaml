@@ -1,6 +1,6 @@
 name: installed_apps_plugin
 description: "Plugin to list linux installed apps"
-version: 0.0.1
+version: 0.0.2
 repository: "https://github.com/doaortu/installed_apps_plugin"
 
 environment:
