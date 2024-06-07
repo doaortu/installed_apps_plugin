@@ -1,3 +1,5 @@
-## 0.0.1
+## 0.0.2
+- add `launch()` method to `InstalledApp` object, to launch the app.
 
-* TODO: Describe initial release.
+## 0.0.1
+- add the ability to list installed apps in linux
