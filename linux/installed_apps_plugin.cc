@@ -21,6 +21,7 @@ struct _InstalledAppsPlugin {
 G_DEFINE_TYPE(InstalledAppsPlugin, installed_apps_plugin, g_object_get_type())
 struct AppInfo {
   std::string name;
+  std::string *description;
   std::string *icon_path;
   std::string id;
 };
@@ -49,6 +50,13 @@ std::vector<AppInfo> get_installed_apps() {
     AppInfo app;
     app.name = display_name;
     app.id = g_app_info_get_id(app_info);
+    const char *desc = g_app_info_get_description(app_info);
+    if(!desc) {
+      app.description = nullptr;
+    } else {
+      app.description = new std::string(desc);
+    }
+    
 
     // Try to get the application icon
     GIcon *icon = g_app_info_get_icon(app_info);
@@ -96,6 +104,12 @@ installed_apps_plugin_handle_method_call(InstalledAppsPlugin *self,
                                fl_value_new_string(app.name.c_str()));
       fl_value_set_string_take(app_info, "id",
                                fl_value_new_string(app.id.c_str()));
+      if (app.description)
+        fl_value_set_string_take(app_info, "description",
+                               fl_value_new_string(app.description->c_str()));
+      else 
+        fl_value_set(app_info, fl_value_new_string("description"),
+                     fl_value_new_null());
       if (app.icon_path)
         fl_value_set_string_take(app_info, "iconPath",
                                  fl_value_new_string(app.icon_path->c_str()));
